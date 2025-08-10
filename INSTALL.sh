@@ -6,10 +6,6 @@ sudo pacman -S --noconfirm --needed \
     base-devel \
     git \
     cmake \
-    python \
-    python-pip \
-    python-virtualenv \
-    python-setuptools \
     stow \
     kitty \
     neovim \
