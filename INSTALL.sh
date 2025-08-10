@@ -15,7 +15,8 @@ sudo pacman -S --noconfirm --needed \
     neovim \
     ttf-jetbrains-mono \
     starship \
-    hyprland
+    hyprland \
+    nwg-look
 if [ $? -ne 0 ]; then
     echo "Error: Failed to install required packages."
     exit 1
@@ -33,7 +34,11 @@ fi
 echo "yay installed successfully."
 
 # Install additional AUR packages
-yay -S nerdfetch
+yay -S nerdfetch \
+       hyprlock \
+       hyprpaper \
+       hyprpicker \
+       hyprshot \ 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to install nerdfetch."
     exit 1
