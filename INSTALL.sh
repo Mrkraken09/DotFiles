@@ -34,7 +34,7 @@ yay -S nerdfetch \
        hyprlock \
        hyprpaper \
        hyprpicker \
-       hyprshot \ 
+       hyprshot
 if [ $? -ne 0 ]; then
     echo "Error: Failed to install nerdfetch."
     exit 1
