@@ -17,6 +17,12 @@ You Need To Install stow To Use The Repo
 $ sudo pacman -S stow # for arch
 ```
 
+If You Want To Install The Package That Requied
+
+```
+$ ./INSTALL.sh
+```
+
 Next You Need To Type Command Below To Add All
 
 ```
