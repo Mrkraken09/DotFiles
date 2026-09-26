@@ -1,8 +1,14 @@
 #!/bin/bash
+set -euo pipefail
 
-# INSTALL.sh - Script to install the application
+# Prevent running as root
+if [ "$EUID" -eq 0 ]; then
+    echo "Error: Do not run this script as root/sudo. Run it as your normal user."
+    exit 1
+fi
 
-sudo pacman -S --noconfirm --needed \
+echo "==> Installing official packages..."
+sudo pacman -S --needed --noconfirm \
     base-devel \
     git \
     cmake \
@@ -10,33 +16,34 @@ sudo pacman -S --noconfirm --needed \
     kitty \
     neovim \
     ttf-jetbrains-mono \
+    ttf-firacode \
     starship \
     hyprland \
-    nwg-look
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to install required packages."
-    exit 1
-fi 
-echo "Required packages installed successfully."
+    hyprlock \
+    hyprpaper \
+    hyprpicker \
+    hypridle \
+    nwg-look \
+    xdg-desktop-portal-hyprland \
+    xdg-desktop-portal \
+    xdg-user-dirs
 
-# Clone the repository
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to install yay."
-    exit 1
+# Install paru if not already present
+if ! command -v paru &> /dev/null; then
+    echo "==> paru not found. Installing paru from AUR..."
+    BUILD_DIR=$(mktemp -d)
+    git clone https://aur.archlinux.org/paru.git "$BUILD_DIR/paru"
+    (cd "$BUILD_DIR/paru" && makepkg -si --noconfirm)
+    rm -rf "$BUILD_DIR"
+    echo "==> paru installed successfully."
+else
+    echo "==> paru is already installed, skipping build."
 fi
-echo "yay installed successfully."
 
-# Install additional AUR packages
-yay -S nerdfetch \
-       hyprlock \
-       hyprpaper \
-       hyprpicker \
-       hyprshot
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to install nerdfetch."
-    exit 1
-fi
-echo "nerdfetch installed successfully."
+# Install AUR packages
+echo "==> Installing AUR packages..."
+paru -S --needed --noconfirm \
+    nerdfetch \
+    hyprshot
+
+echo "==> All packages installed successfully!"
